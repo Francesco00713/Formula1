@@ -1,6 +1,5 @@
-const n = generateRandomInteger(1000, 5000);
-let time = 0;
-let myTime = 0;
+let n = generateRandomInteger(1000, 5000);
+let footer, partenza, time = 0, myTime = 0;
 let light1 = document.querySelector("#light1");
 let light2 = document.querySelector("#light2");
 let light3 = document.querySelector("#light3");
@@ -51,12 +50,13 @@ function fila3(){
     light11.classList.add("light-on");
     light15.classList.add("light-on");
     light19.classList.add("light-on");
-    n = 0;
-    getRandom(1000, 5000);
+    n = generateRandomInteger(1000, 5000);
     setTimeout(start, n);
 }
 
 function start(){
+    partenza.classList.remove("button2-off");
+    partenza.classList.add("button2-on");
     let date1 = new Date();
     time = date1.getTime();
     light4.classList.add("light-start");
@@ -67,24 +67,21 @@ function start(){
     return time;
 }
 
-function handleClick(event1) {
+function handleClick(event) {
     setTimeout(fila1, 2000);
-}
-
-function handleClick(event2) {
-    let footer;
-    let button = document.querySelector("#avviamento");
-    let date = new Date();
-    myTime = date.getTime();
-    if ((myTime - time) / 1000 > 100){
-        footer = document.querySelector("#footer").innerHTML = "HAI CLICCATO TROPPO PRESTO!";
-    } else{
-        footer = document.querySelector("#footer").innerHTML = (myTime - time) / 1000;
+    partenza = document.querySelector("#partenza");
+    partenza.addEventListener("click", handleClick);
+    function handleClick(event){
+        let button = document.querySelector("#avviamento");
+        let date = new Date();
+        myTime = date.getTime();
+        if ((myTime - time) / 1000 > 100){
+            footer = document.querySelector("#footer").innerHTML = "HAI CLICCATO TROPPO PRESTO!";
+        } else{
+            footer = document.querySelector("#footer").innerHTML = "COMPLIMENTI, CI HAI IMPIEGATO " + (myTime - time) / 1000; + "S";
+        }
     }
 }
 
 let avviamento = document.querySelector("#avviamento");
-avviamento.addEvent1Listener("click", handleClick);
-
-let partenza = document.querySelector("#partenza");
-partenza.addEvent2Listener("click", handleClick);
+avviamento.addEventListener("click", handleClick);
